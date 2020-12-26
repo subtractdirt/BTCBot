@@ -381,6 +381,20 @@ class General(commands.Cog):
 		message_string = "**1 Bitcoin** is worth **" + price + "**"	
 		await ctx.send(message_string)
 
+	# Fetches price in Strongsold
+	@commands.command()
+	async def strongsold(self, ctx):
+		api = "http://preev.com/pulse/units:btc+usd/sources:bitstamp+kraken"
+
+		r = requests.get(api)
+		data = json.loads(r.text)
+
+		price = data["btc"]["usd"]["bitstamp"]["last"]
+		price = round(19100/float(price))
+		price = "{:,}".format(price)
+		message_string = "Each **1 Bitcoin** @strongcryptographer sold at 19100 will now buy back **" + price + "**"	
+		await ctx.send(message_string)	
+
 	# Fetches price in coldcards
 	@commands.command()
 	async def coldcard(self, ctx):
