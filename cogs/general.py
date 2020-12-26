@@ -392,8 +392,8 @@ class General(commands.Cog):
 		data = json.loads(r.text)
 
 		price = data["btc"]["usd"]["bitstamp"]["last"]
-		price = round(float(price)/50)
-		price = "{:,} hours with @strongcryptographer".format(price)
+		price = round(float(price)/1000000)
+		price = "{:,} @strongcryptographers".format(price)
 		message_string = "**1 Bitcoin** is worth **" + price + "**"	
 		await ctx.send(message_string)
 
@@ -406,7 +406,7 @@ class General(commands.Cog):
 		data = json.loads(r.text)
 
 		price = data["btc"]["usd"]["bitstamp"]["last"]
-		price = round(19100/float(price))
+		price = round(float(19100/price))
 		price = "{:,}".format(price)
 		message_string = "Each **1 Bitcoin** @strongcryptographer sold at 19100 will now buy back **" + price + "**"	
 		await ctx.send(message_string)	
