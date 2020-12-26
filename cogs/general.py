@@ -367,6 +367,22 @@ class General(commands.Cog):
 		message_string = "**1 Bitcoin** is worth **" + price + "**"
 		await ctx.send(message_string)
 
+	# Fetches price in ron
+	@commands.command()
+	async def ron(self, ctx):
+		api = "http://preev.com/pulse/units:btc+ron/sources:bitstamp+kraken"
+
+		r = requests.get(api)
+		data = json.loads(r.text)
+
+		price = data["btc"]["usd"]["bitstamp"]["last"]
+		conversion = data["ron"]["usd"]["other"]["last"]
+		price = float(price)/float(conversion)
+		price = round(float(price),2)
+		price = "{:,.2f}-lei".format(float(price))
+		message_string = "**1 Bitcoin** is worth **" + price + "**"
+		await ctx.send(message_string)
+
 	# Fetches price in Strong
 	@commands.command()
 	async def strong(self, ctx):
