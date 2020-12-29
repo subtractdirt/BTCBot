@@ -119,36 +119,35 @@ class General(commands.Cog):
 			await ctx.send("oh. that guy.")
 		else:
 			await ctx.send("who?")
+			
 	@commands.command()
 	async def wage(self, ctx, amount=0, arg="noargs"):
-             
-         	       arg = arg.lower()
-                
-                	try:
-				api = "http://preev.com/pulse/units:btc+" + arg + "/sources:bitstamp+kraken"
-				r = requests.get(api)
-				data = json.loads(r.text)
-			except:
-				return
-			skipConvert = False
+		arg = arg.lower()
+                try:
+			api = "http://preev.com/pulse/units:btc+" + arg + "/sources:bitstamp+kraken"
+			r = requests.get(api)
+			data = json.loads(r.text)
+		except:
+			return
+		skipConvert = False
+		try:
+			price = data["btc"]["usd"]["bitstamp"]["last"]
+		except:
 			try:
-				price = data["btc"]["usd"]["bitstamp"]["last"]
+				price = data["btc"][arg]["bitstamp"]["last"]
+				skipConvert = True
 			except:
-				try:
-					price = data["btc"][arg]["bitstamp"]["last"]
-					skipConvert = True
-				except:
-					price = data["btc"][arg]["kraken"]["last"]
-					skipConvert = True
-			if arg != "usd" and not skipConvert:
-				conversion = data[arg]["usd"]["other"]["last"]
-				price = float(price)/float(conversion)
+				price = data["btc"][arg]["kraken"]["last"]
+				skipConvert = True
+		if arg != "usd" and not skipConvert:
+			conversion = data[arg]["usd"]["other"]["last"]
+			price = float(price)/float(conversion)
 		
-			price = float(price/amount)
-			message_string = ""
-			message_string = "**1 Bitcoin** costs **" + price + "** hours"
+		price = float(price/amount)
+		message_string = ""
+		message_string = "**1 Bitcoin** costs **" + price + "** hours"
 		
-			await ctx.send(message_string)
+		await ctx.send(message_string)
 
 def setup(bot):
 	bot.add_cog(General(bot))
