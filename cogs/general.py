@@ -123,6 +123,7 @@ class General(commands.Cog):
 	@commands.command()
 	async def wage(self, ctx, amount=0, arg="noargs"):
 		arg = arg.lower()
+		amount = int(amount)
                 try:
 			api = "http://preev.com/pulse/units:btc+" + arg + "/sources:bitstamp+kraken"
 			r = requests.get(api)
@@ -147,6 +148,13 @@ class General(commands.Cog):
 		message_string = ""
 		message_string = "**1 Bitcoin** costs **" + price + "** hours"
 		
+		await ctx.send(message_string)
+
+	@commands.command()
+	async def argtest(self, ctx, amount=0, arg="noargs"):
+		arg = arg.lower()
+		amount = amount
+		message_string = amount + " arg:" +arg
 		await ctx.send(message_string)
 
 def setup(bot):
